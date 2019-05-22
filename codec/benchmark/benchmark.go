@@ -134,6 +134,7 @@ func benchmarkPack(trials int, chunks *chunks) int {
 }
 
 func benchmarkUnpack(trials int, chunks *chunks) int {
+	sTime := time.Now()
 	packed := make([]*pb.UidPack, len(chunks.data))
 	for i, c := range chunks.data {
 		packed[i] = codec.Encode(c, 256)
@@ -156,6 +157,7 @@ func benchmarkUnpack(trials int, chunks *chunks) int {
 
 		for j := 0; j < len(c); j++ {
 			if c[j] != out[j] {
+				fmt.Println("Time taken", time.Since(sTime))
 				x.Fatalf("Something wrong %+v \n%+v\n %+v\n", len(c), len(out), j)
 			}
 		}
